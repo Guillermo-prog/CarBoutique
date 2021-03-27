@@ -16,19 +16,20 @@ typedef struct{
 	char *contrasena;
 }Usuario;
 
-//MENU
+
+
+
 char seleccionInicioSesion();
 
-//INICIOS DE SESION
+//INCIOS DE SESION
 void inicioSesionUsuario();
 void inicioSesionMarca();
 void inicioSesionAdministrador();
 
-//REGISTRO
+//Registro
 char seleccionRegistro();
-void registroUsuario();
-void registroMarca();
-void registroAdministrador(); //
+
+
 
 
 
