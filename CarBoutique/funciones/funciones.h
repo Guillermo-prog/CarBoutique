@@ -8,16 +8,19 @@
 #ifndef FUNCIONES_H_
 #define FUNCIONES_H_
 
+//static int contador = 0;
 
 //ESTRUCTURAS
 typedef struct{
 	int id;
 	char *nombre;
+	char *apellido;
+	char *nombreUsuario;
 	char *contrasena;
 }Usuario;
 
 //MENU
-char seleccionInicioSesion();
+void seleccionInicioSesion();
 
 //INICIOS DE SESION
 void inicioSesionUsuario();
@@ -25,7 +28,7 @@ void inicioSesionMarca();
 void inicioSesionAdministrador();
 
 //REGISTRO
-char seleccionRegistro();
+void seleccionRegistro();
 void registroUsuario();
 void registroMarca();
 void registroAdministrador(); //
