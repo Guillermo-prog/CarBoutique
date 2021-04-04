@@ -9,61 +9,106 @@
 #include <string.h>
 #include "funciones.h"
 
-//MENU
-void seleccionInicioSesion() {
-
-	char c;
-	do {
-		printf("\n\n--------Bienvenido a CarBoutique---------\n");
-		printf("Inicio de sesion:\n");
-		printf("1.Usuario\n");
-		printf("2.Marca\n");
-		printf("3.Administrador\n");
-		printf("4.Registro\n");
-		printf("Pulse 'q' para salir\n");
-		printf("\n\nElija una opcion:");
-		fflush(stdout);
-		c = getchar();
-		fflush(stdin);
-
-		if (c == '1') {
-			inicioSesionUsuario();
-		} else if (c == '2') {
-			inicioSesionMarca();
-		} else if (c == '3') {
-			inicioSesionAdministrador();
-		} else if (c == '4') {
-			seleccionRegistro();
-		} else if (c == 'q') {
-			printf("Has salido del sistema.");
-			break;
-		} else {
-			printf("Opcion no valida");
-		}
-
-	} while (c != 'q');
-
-}
+#define MAX_LINE 20
 
 //INICIOS DE SESION
 void inicioSesionUsuario() {
+
+	char str[MAX_LINE];
+
+
+	printf("\n\n-----Inicia sesion como usuario------\n");
+
 	printf("Nombre de usuario:");
 	fflush(stdout);
-	char nom[20]; //Aqui se guarda el nombre de usuario
-	fgets(nom, sizeof(nom), stdin);
-	sscanf(nom, "%s", nom);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *nom_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", nom_fmt);
 
 	printf("Contraseña:");
 	fflush(stdout);
-	char cont[20]; //Aqui se guarda la contraseña de usuario
-	fgets(cont, sizeof(cont), stdin);
-	sscanf(cont, "%s", cont);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *con_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", con_fmt);
 
-	//devolver los datos del Usuario
+	/* REVISAR!! EL DE USUARIOS Y EL DE MARCAS
+	int num;
+	Marca *marcas;
+
+	FILE *file;
+	file = fopen("marcas.dat", "rb");
+	num = fgetc(file);
+	marcas = (Marca*) malloc(num * sizeof(Marca));
+	fread(marcas, sizeof(Marca), num, file);
+	fclose(file);
+	for(int i = 0; i<num; i++){
+		printf("%i : %s (%s)\n", marcas[i].id, marcas[i].nombre, marcas[i].contrasena);
+	}
+
+	free(marcas);
+	*/
 
 }
+
 void inicioSesionMarca() {
+
+
+	char str[MAX_LINE];
+
+	printf("\n\n-----Inicia sesion como marca------\n");
+
+	printf("1.Nombre de marca:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *nom_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", nom_fmt);
+
+	printf("\n2.Contraseña de la marca:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *con_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", con_fmt);
+
+
+
+
+	int num;
+	Marca *marcas;
+
+	FILE *file;
+	file = fopen("marcas.dat", "rb");
+	num = fgetc(file);
+	marcas = (Marca*) malloc(num * sizeof(Marca));
+	fread(marcas, sizeof(Marca), num, file);
+	fclose(file);
+	for(int i = 0; i<num; i++){
+		printf("%i : %s (%s)\n", marcas[i].id, marcas[i].nombre, marcas[i].contrasena);
+	}
+
+	free(marcas);
+
+	/*
+	for(int i = 0; i<num; i++){
+		if(marcas[i].nombre == nom_fmt && marcas[i].contrasena == com_fmt){
+			printf("Has iniciado sesion con %s", marcas[i].nombre);
+			menuMarca();
+		}
+	}
+	*/
+
+
+
 }
+
+
+void menuMarca(){
+
+}
+
 void inicioSesionAdministrador() {
 }
 
@@ -83,12 +128,22 @@ void seleccionRegistro() {
 
 		switch (select) {
 		case '1':
-			registroUsuario();
+		{
+			Usuario *u = (Usuario*) malloc(sizeof(Usuario));
+			registroUsuario(u);
+			free(u);
 			break;
+		}
 
 		case '2':
-			registroMarca();
+
+		{
+			Marca *m = (Marca*) malloc(sizeof(Marca));
+			registroMarca(m);
+			free(m);
 			break;
+		}
+
 		case 'q':
 			seleccionInicioSesion();
 			break;
@@ -101,78 +156,61 @@ void seleccionRegistro() {
 
 }
 
-void registroUsuario() {
-	Usuario u;
-	char str[50];
+void registroUsuario(Usuario *u) {
+
+	char str[11];
+	int id;
 
 	printf("\n\n------Resgistro de un nuevo usuario------\n");
-	u.nombreUsuario = (char*) malloc(sizeof(char) * (strlen(str) + 1));
-
-	do {
-
-		printf("Nombre de usuario:");
-		fflush(stdout);
-		fgets(str, sizeof(str), stdin);
-		sscanf(str, "%s", str);
-
-		if (strlen(str) < 4) {
-			printf("Nombre de usuario no valido.");
-		}
-		//memset(str, 0, 11); //para limpiar el buffer
-
-	} while (strlen(str) < 4);
-	strcpy(u.nombreUsuario, str);
 
 
-	do {
+	printf("ID: ");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	sscanf(str, "%i", &id);
+	clearIfNeeded(str, MAX_LINE);
+	u->id = id;
 
-		printf("Nombre:");
-		fflush(stdout);
-		fgets(str, sizeof(str), stdin);
-		sscanf(str, "%s", str);
-		u.nombre = (char*) malloc(sizeof(char) * (strlen(str) + 1));
+	printf("Nombre de usuario:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *str_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", str_fmt);
+	u->nombreUsuario = malloc(sizeof(char) * (strlen(str_fmt) + 1));
+	strcpy(u->nombreUsuario, str_fmt);
+	free(str_fmt);
 
-		if (strlen(str) > 1) {
-			strcpy(u.nombre, str);
+	printf("Nombre:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *str_fmt1 = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", str_fmt1);
+	u->nombre = malloc(sizeof(char) * (strlen(str_fmt1) + 1));
+	strcpy(u->nombre, str_fmt1);
+	free(str_fmt1);
 
-		} else {
-			printf("Nombre no válido");
-		}
-		//memset(str, 0, 11);
+	printf("Apellido:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *str_fmt2 = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", str_fmt2);
+	u->apellido = malloc(sizeof(char) * (strlen(str_fmt2) + 1));
+	strcpy((*u).nombre, str_fmt2);
+	free(str_fmt2);
 
-	} while (strlen(str) < 2);
-
-
-	do {
-		printf("Apellido:");
-		fflush(stdout);
-		fgets(str, sizeof(str), stdin);
-		sscanf(str, "%s", str);
-		u.apellido = (char*) malloc(sizeof(char) * (strlen(str) + 1));
-		if (strlen(str) > 1) {
-			strcpy(u.apellido, str);
-
-		} else {
-			printf("Apellido no válido");
-		}
-		//memset(str, 0, 11);
-	} while (strlen(str) < 2);
-
-
-	do {
-		printf("Contraseña:");
-		fflush(stdout);
-		fgets(str, sizeof(str), stdin);
-		sscanf(str, "%s", str);
-		u.contrasena = (char*) malloc(sizeof(char) * (strlen(str) + 1));
-		if (strlen(str) > 1) {
-			strcpy(u.contrasena, str);
-
-		} else {
-			printf("Contraseña no válido");
-		}
-		//memset(str, 0, 11);
-	} while (strlen(str) < 2);
+	printf("Contraseña:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, 11, stdin);
+	char *str_fmt3 = malloc(11 * sizeof(char));
+	sscanf(str, "%s", str_fmt3);
+	u->contrasena = malloc(sizeof(char) * (strlen(str_fmt3) + 1));
+	strcpy((*u).nombre, str_fmt3);
+	free(str_fmt3);
 
 	/*
 	 char repet[11];
@@ -186,21 +224,71 @@ void registroUsuario() {
 
 	//Guardamos el usuario que hemos creado
 	FILE *file;
-	file = fopen("usuarios.dat", "wb");
+	file = fopen("usuarios.dat", "ab");
 	fputc(1, file);
-	fwrite(&u, sizeof(Usuario), 1, file);
+	fwrite(u, sizeof(*u), 1, file);
 	fclose(file);
 
 	fflush(stdin);
+	printf("\nUsuario registrado\n\n");
+	seleccionInicioSesion();
+
+
+
+}
+
+void clearIfNeeded(char *str, int max_line) {
+	// Limpia los caracteres de más introducidos
+	if ((strlen(str) == MAX_LINE - 1) && (str[MAX_LINE - 2] != '\n'))
+		while (getchar() != '\n')
+			;
+}
+
+void registroMarca(Marca *m) {
+	printf("\n\n-------Registrar marca--------\n\n");
+
+//	char* nombre = (char*) malloc(sizeof(char) * 20);
+//	char* contra = (char*) malloc(sizeof(char) * 20);
+
+	char str[MAX_LINE];
+	int id;
+
+	printf("ID: ");
 	fflush(stdout);
-	printf("Usuario registrado.\n");
-	//seleccionInicioSesion();
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	sscanf(str, "%i", &id);
+	clearIfNeeded(str, MAX_LINE);
 
-}
-void registroMarca() {
+	m->id = id;
 
-}
-void registroAdministrador() {
+	printf("Nombre de la marca:");
+	fflush(stdout);
+	fflush(stdin);
+	fgets(str, MAX_LINE, stdin);
+	char *str_fmt = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", str_fmt);
+	m->nombre = malloc((strlen(str_fmt) + 1) * sizeof(char));
+	strcpy(m->nombre, str_fmt);
+	free(str_fmt);
 
+	printf("Contraseña:");
+	fflush(stdin);
+	fflush(stdout);
+	fgets(str, MAX_LINE, stdin);
+	char *str_fmt2 = malloc(MAX_LINE * sizeof(char));
+	sscanf(str, "%s", str_fmt2);
+	m->contrasena = malloc((strlen(str_fmt2) + 1) * sizeof(char));
+	strcpy(m->contrasena, str_fmt2);
+	free(str_fmt2);
+
+	FILE *file2;
+	file2 = fopen("marcas.dat", "ab");
+	fputc(1, file2);
+	fwrite(m, sizeof(*m), 1, file2);
+	fclose(file2);
+
+	printf("\Marca registrado\n\n");
+	seleccionInicioSesion();
 }
 

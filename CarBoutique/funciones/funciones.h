@@ -19,6 +19,12 @@ typedef struct{
 	char *contrasena;
 }Usuario;
 
+typedef struct{
+	int id;
+	char *nombre;
+	char *contrasena;
+}Marca;
+
 //MENU
 void seleccionInicioSesion();
 
@@ -29,11 +35,13 @@ void inicioSesionAdministrador();
 
 //REGISTRO
 void seleccionRegistro();
-void registroUsuario();
-void registroMarca();
-void registroAdministrador(); //
+void registroUsuario(Usuario*);
+void registroMarca(Marca*);
+void registroAdministrador();
 
+void menuMarca();
 
+void clearIfNeeded(char *str, int max_line);
 
 
 
