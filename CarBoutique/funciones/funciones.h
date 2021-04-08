@@ -25,7 +25,8 @@ typedef struct{
 	char *contrasena;
 }Marca;
 
-//MENU
+
+//MENU PRINCIPAL
 void seleccionInicioSesion();
 
 //INICIOS DE SESION
@@ -39,7 +40,7 @@ void registroUsuario(Usuario*);
 void registroMarca(Marca*);
 void registroAdministrador();
 
-void menuMarca();
+
 
 void clearIfNeeded(char *str, int max_line);
 

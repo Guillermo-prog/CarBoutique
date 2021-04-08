@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funciones/funciones.h"
+#include "coches/coches.h"
 
 int main(void) {
 	seleccionInicioSesion();
@@ -36,8 +37,12 @@ void seleccionInicioSesion() {
 			inicioSesionUsuario();
 			break;
 		case '2':
-			inicioSesionMarca();
+			//inicioSesionMarca();
+		{
+			Marca m = {11, "MarcaEjemplo", "MarcaEjemplo"};
+			menuMarca(m);
 			break;
+		}
 		case '3':
 			inicioSesionAdministrador();
 			break;
