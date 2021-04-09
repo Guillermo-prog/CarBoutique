@@ -1,9 +1,3 @@
-/*
- * main.c
- *
- *  Created on: 24 mar. 2021
- *      Author: guill
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include "funciones/funciones.h"
@@ -13,9 +7,8 @@ int main(void) {
 	seleccionInicioSesion();
 }
 
-
 void seleccionInicioSesion() {
-
+	int i;
 	char opcion;
 	do {
 		printf("\n\n--------Bienvenido a CarBoutique---------\n");
@@ -30,22 +23,44 @@ void seleccionInicioSesion() {
 		opcion = getchar();
 		fflush(stdin);
 
-		switch( opcion ) {
+		switch (opcion) {
 
-
-		case '1':
-			inicioSesionUsuario();
+		case '1': {
+			Usuario *u = inicioSesionUsuario();
+			menuUsuario(u);
 			break;
-		case '2':
-			//inicioSesionMarca();
-		{
-			Marca m = {11, "MarcaEjemplo", "MarcaEjemplo"};
-			menuMarca(m);
+		}
+		case '2': {
+			//Inicio de sesion directamente
+									Marca m = {123, "Mercedes Benz", "merc"};
+			//						menuMarca(m);
+
+			//Inicio de sesion con credenciales
+			Marca *lista = recuperarMarca();
+//			for (i = 0; i<MAX_MARCAS;i++){
+//				printMarca(&lista[i]);
+//			}
+			Marca *entry = &m;
+
+			for (i = 0; i < MAX_MARCAS; i++) {
+				if (strcmp(entry->nombre, lista[i].nombre) == 0) {
+					if (strcmp(entry->contrasena, lista[i].contrasena) == 0) {
+						menuMarca(*entry);
+						break;
+					}
+				}
+			}
+			printf("Marca no accesible.\n");
+
+
+
+			//free(entry);
+			//free(lista);
 			break;
 		}
 		case '3':
-			inicioSesionAdministrador();
-			break;
+//			inicioSesionAdministrador();
+//			break;
 		case '4':
 			seleccionRegistro();
 			break;
@@ -56,8 +71,6 @@ void seleccionInicioSesion() {
 			printf("Opcion no valida");
 		}
 
-
 	} while (opcion != 'q');
-
 
 }
